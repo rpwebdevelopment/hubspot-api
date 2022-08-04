@@ -55,8 +55,7 @@ final class Deal extends Api
             ->getResults();
 
         foreach ($results as $result) {
-            $key = Str::of($result->getLabel())->lower()->kebab()->toString();
-            $this->dealPipelines[$key] = $result->getId();
+            $this->dealPipelines[$result->getLabel()] = $result->getId();
         }
     }
 
@@ -73,8 +72,7 @@ final class Deal extends Api
                 ->getResults();
 
             foreach ($results as $result) {
-                $key = Str::of($result->getLabel())->lower()->kebab()->toString();
-                $this->dealStages[$key] = $result->getId();
+                $this->dealStages[$result->getLabel()] = $result->getId();
             }
         }
     }

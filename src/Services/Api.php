@@ -37,6 +37,11 @@ class Api
         return $results;
     }
 
+    public function get(int $id): array
+    {
+        return $this->crm->basicApi()->getById($id)->getProperties();
+    }
+
     public function create(array $properties): mixed
     {
         $this->objectInput->setProperties($properties);
