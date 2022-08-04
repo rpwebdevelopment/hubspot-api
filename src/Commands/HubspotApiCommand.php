@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace RpWebDevelopment\HubspotApi\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class HubspotApiCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'hubspot-api';
 
     public $description = 'My command';
 

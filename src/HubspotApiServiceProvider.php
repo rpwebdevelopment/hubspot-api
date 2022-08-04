@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace RpWebDevelopment\HubspotApi;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use VendorName\Skeleton\Commands\SkeletonCommand;
+use RpWebDevelopment\HubspotApi\Commands\HubspotApiCommand;
 
-class SkeletonServiceProvider extends PackageServiceProvider
+class HubspotApiServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -16,10 +16,10 @@ class SkeletonServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('skeleton')
+            ->name('hubspot-api')
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_skeleton_table')
-            ->hasCommand(SkeletonCommand::class);
+            ->hasMigration('create_hubspot-api_table')
+            ->hasCommand(HubspotApiCommand::class);
     }
 }
