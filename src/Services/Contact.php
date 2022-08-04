@@ -10,7 +10,7 @@ use HubSpot\Client\Crm\Contacts\Model\SimplePublicObjectInput;
 use HubSpot\Client\Crm\Contacts\Model\PublicObjectSearchRequest;
 use HubSpot\Discovery\DiscoveryBase;
 
-class Contact extends Api
+final class Contact extends Api
 {
     protected Filter $filter;
     protected DiscoveryBase $crm;

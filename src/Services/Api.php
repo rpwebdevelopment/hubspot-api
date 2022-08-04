@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace RpWebDevelopment\HubspotApi\Services;
 
-use Hubspot\Factory;
-use HubSpot\Discovery\Discovery;
+use \HubSpot\Discovery\Discovery;
 
-abstract class Api
+class Api
 {
     protected Discovery $hubspot;
 
     public function __construct(string $accessToken)
     {
-        $this->hubspot = Factory::createWithAccessToken($accessToken);
+        $this->hubspot = \HubSpot\Factory::createWithAccessToken($accessToken);
     }
 
-    public function search(string $property, string $value): array
+    public function search(string $property, string $value): mixed
     {
         $this->filter
             ->setOperator('EQ')
