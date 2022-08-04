@@ -56,10 +56,7 @@
         "laravel": {
             "providers": [
                 "RpWebDevelopment\\HubspotApi\\HubspotApiServiceProvider"
-            ],
-            "aliases": {
-                "HubspotApi": "RpWebDevelopment\\HubspotApi\\Facades\\HubspotApi"
-            }
+            ]
         }
     },
     "minimum-stability": "dev",
