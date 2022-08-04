@@ -17,9 +17,6 @@ class HubspotApiServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('hubspot-api')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_hubspot-api_table')
-            ->hasCommand(HubspotApiCommand::class);
+            ->hasConfigFile();
     }
 }

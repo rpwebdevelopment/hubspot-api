@@ -55,7 +55,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "RpWebDevelopment\\HubspotApi\\HubspotApiServiceProvider"
+                "RpWebDevelopment\\HubspotApi\\HubspotApiServiceProvider",
+                "RpWebDevelopment\\HubspotApi\\ServiceProviders\\ApiServiceProvider"
             ]
         }
     },
