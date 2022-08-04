@@ -4,44 +4,33 @@ declare(strict_types=1);
 
 namespace RpWebDevelopment\HubspotApi\Services;
 
-use HubSpot\Client\Crm\Contacts\Model\Filter as ContactFilter;
-use HubSpot\Client\Crm\Contacts\Model\FilterGroup as ContactFilterGroup;
-use HubSpot\Client\Crm\Contacts\Model\PublicObjectSearchRequest as ContactSearchRequest;
 use Hubspot\Factory;
 use HubSpot\Discovery\Discovery;
-use HubSpot\Client\Crm\Deals\Model\Filter as DealFilter;
-use HubSpot\Client\Crm\Deals\Model\FilterGroup as DealFilterGroup;
-use HubSpot\Client\Crm\Deals\Model\PublicObjectSearchRequest as DealSearchRequest;
 
-class Api
+abstract class Api
 {
-    private Discovery $hubspot;
+    protected Discovery $hubspot;
 
     public function __construct(string $accessToken)
     {
         $this->hubspot = Factory::createWithAccessToken($accessToken);
     }
 
-    public function contactSearch(string $property, string $value)
+    public function search(string $property, string $value): array
     {
-        $filter = new ContactFilter();
-        $filter
+        $this->filter
             ->setOperator('EQ')
             ->setPropertyName($property)
             ->setValue($value);
 
-        $filterGroup = new ContactFilterGroup();
-        $filterGroup->setFilters([$filter]);
+        $this->filterGroup->setFilters([$this->filter]);
+        $this->searchRequest->setFilterGroups([$this->filterGroup]);
 
-        $searchRequest = new ContactSearchRequest();
-        $searchRequest->setFilterGroups([$filterGroup]);
-
-        $response = $this->hubspot
-            ->crm()
-            ->contacts()
+        $response = $this->crm
             ->searchApi()
-            ->doSearch($searchRequest);
+            ->doSearch($this->searchRequest);
 
+        $results = [];
         foreach($response->getResults() as $result) {
             $results[$result->getId()] = $result->getProperties();
         }
@@ -49,30 +38,22 @@ class Api
         return $results;
     }
 
-    public function dealSearch(string $property, string $value): array
+    public function create(array $properties): mixed
     {
-        $filter = new DealFilter();
-        $filter
-            ->setOperator('EQ')
-            ->setPropertyName($property)
-            ->setValue($value);
+        $this->objectInput->setProperties($properties);
 
-        $filterGroup = new DealFilterGroup();
-        $filterGroup->setFilters([$filter]);
+        return $this->crm->basicApi()->create($this->objectInput);
+    }
 
-        $searchRequest = new DealSearchRequest();
-        $searchRequest->setFilterGroups([$filterGroup]);
+    public function update(int $id, array $properties): void
+    {
+        $this->objectInput->setProperties($properties);
 
-        $response = $this->hubspot
-            ->crm()
-            ->deals()
-            ->searchApi()
-            ->doSearch($searchRequest);
+        $this->crm->basicApi()->update($id, $this->objectInput);
+    }
 
-        foreach($response->getResults() as $result) {
-            $results[$result->getId()] = $result->getProperties();
-        }
-
-        return $results;
+    public function archive(int $id): void
+    {
+        $this->crm->basicApi()->archive($id);
     }
 }
