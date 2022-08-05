@@ -9,9 +9,12 @@ use HubSpot\Client\Crm\Contacts\Model\FilterGroup;
 use HubSpot\Client\Crm\Contacts\Model\SimplePublicObjectInput;
 use HubSpot\Client\Crm\Contacts\Model\PublicObjectSearchRequest;
 use HubSpot\Discovery\DiscoveryBase;
+use RpWebDevelopment\HubspotApi\Traits\Searchable;
 
 final class Contact extends Hubspot
 {
+    use Searchable;
+
     protected Filter $filter;
     protected DiscoveryBase $crm;
     protected FilterGroup $filterGroup;

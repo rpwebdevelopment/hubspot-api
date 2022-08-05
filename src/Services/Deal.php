@@ -11,9 +11,12 @@ use HubSpot\Client\Crm\Deals\Model\PublicObjectSearchRequest;
 use HubSpot\Crm\ObjectType;
 use HubSpot\Discovery\DiscoveryBase;
 use RpWebDevelopment\HubspotApi\Exceptions\ApiException;
+use RpWebDevelopment\HubspotApi\Traits\Searchable;
 
 final class Deal extends Hubspot
 {
+    use Searchable;
+
     public array $dealPipelines = [];
     public array $dealStages = [];
     protected Filter $filter;
