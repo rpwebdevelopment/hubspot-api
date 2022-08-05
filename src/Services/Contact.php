@@ -10,7 +10,7 @@ use HubSpot\Client\Crm\Contacts\Model\SimplePublicObjectInput;
 use HubSpot\Client\Crm\Contacts\Model\PublicObjectSearchRequest;
 use HubSpot\Discovery\DiscoveryBase;
 
-final class Contact extends Api
+final class Contact extends Hubspot
 {
     protected Filter $filter;
     protected DiscoveryBase $crm;
@@ -18,9 +18,9 @@ final class Contact extends Api
     protected SimplePublicObjectInput $objectInput;
     protected PublicObjectSearchRequest $searchRequest;
 
-    public function __construct(string $accessToken)
+    public function __construct(Api $api)
     {
-        parent::__construct($accessToken);
+        parent::__construct($api);
 
         $this->filter = new Filter();
         $this->filterGroup = new FilterGroup();

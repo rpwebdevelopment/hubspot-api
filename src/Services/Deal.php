@@ -9,10 +9,9 @@ use HubSpot\Client\Crm\Deals\Model\FilterGroup;
 use HubSpot\Client\Crm\Deals\Model\SimplePublicObjectInput;
 use HubSpot\Client\Crm\Deals\Model\PublicObjectSearchRequest;
 use HubSpot\Discovery\DiscoveryBase;
-use Illuminate\Support\Str;
 use RpWebDevelopment\HubspotApi\Exceptions\ApiException;
 
-final class Deal extends Api
+final class Deal extends Hubspot
 {
     public array $dealPipelines = [];
     public array $dealStages = [];
@@ -22,9 +21,9 @@ final class Deal extends Api
     protected SimplePublicObjectInput $objectInput;
     protected PublicObjectSearchRequest $searchRequest;
 
-    public function __construct(string $accessToken)
+    public function __construct(Api $api)
     {
-        parent::__construct($accessToken);
+        parent::__construct($api);
 
         $this->filter = new Filter();
         $this->filterGroup = new FilterGroup();
@@ -43,6 +42,21 @@ final class Deal extends Api
         $properties = ['dealstage' => $this->dealStages[$stageLabel]];
 
         $this->update($dealId, $properties);
+    }
+
+    public function getContacts(int $dealId): array
+    {
+        return $this->getAssociation($dealId, 'contacts');
+    }
+
+    public function addContact(int $dealId, int $contactId): void
+    {
+        $this->setAssociation($dealId, 'contacts', $contactId, 'deal_to_contact');
+    }
+
+    public function removeContact(int $dealId, int $contactId): void
+    {
+        $this->archiveAssociation($dealId, 'contacts', $contactId, 'deal_to_contact');
     }
 
     protected function getDealPipelines(): void
