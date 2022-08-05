@@ -8,6 +8,7 @@ use HubSpot\Client\Crm\Deals\Model\Filter;
 use HubSpot\Client\Crm\Deals\Model\FilterGroup;
 use HubSpot\Client\Crm\Deals\Model\SimplePublicObjectInput;
 use HubSpot\Client\Crm\Deals\Model\PublicObjectSearchRequest;
+use HubSpot\Crm\ObjectType;
 use HubSpot\Discovery\DiscoveryBase;
 use RpWebDevelopment\HubspotApi\Exceptions\ApiException;
 
@@ -46,17 +47,17 @@ final class Deal extends Hubspot
 
     public function getContacts(int $dealId): array
     {
-        return $this->getAssociation($dealId, 'contacts');
+        return $this->getAssociation($dealId, ObjectType::CONTACTS);
     }
 
     public function addContact(int $dealId, int $contactId): void
     {
-        $this->setAssociation($dealId, 'contacts', $contactId, 'deal_to_contact');
+        $this->setAssociation($dealId, ObjectType::CONTACTS, $contactId, 'deal_to_contact');
     }
 
     public function removeContact(int $dealId, int $contactId): void
     {
-        $this->archiveAssociation($dealId, 'contacts', $contactId, 'deal_to_contact');
+        $this->archiveAssociation($dealId, ObjectType::CONTACTS, $contactId, 'deal_to_contact');
     }
 
     protected function getDealPipelines(): void
@@ -65,7 +66,7 @@ final class Deal extends Hubspot
             ->crm()
             ->pipelines()
             ->pipelinesApi()
-            ->getAll('deals')
+            ->getAll(ObjectType::DEALS)
             ->getResults();
 
         foreach ($results as $result) {
@@ -82,7 +83,7 @@ final class Deal extends Hubspot
                 ->crm()
                 ->pipelines()
                 ->pipelineStagesApi()
-                ->getAll('deals', $pipeline)
+                ->getAll(ObjectType::DEALS, $pipeline)
                 ->getResults();
 
             foreach ($results as $result) {
