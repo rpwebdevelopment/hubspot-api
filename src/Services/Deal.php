@@ -17,8 +17,8 @@ final class Deal extends Hubspot
 {
     use Searchable;
 
-    public array $dealPipelines = [];
-    public array $dealStages = [];
+    protected array $dealPipelines = [];
+    protected array $dealStages = [];
     protected Filter $filter;
     protected DiscoveryBase $crm;
     protected FilterGroup $filterGroup;
@@ -34,7 +34,7 @@ final class Deal extends Hubspot
         $this->objectInput = new SimplePublicObjectInput();
         $this->searchRequest = new PublicObjectSearchRequest();
         $this->crm = $this->hubspot->crm()->deals();
-        $this->getDealStages();
+        $this->setDealStages();
     }
 
     public function setDealStage(int $dealId, string $stageLabel): void
@@ -53,9 +53,19 @@ final class Deal extends Hubspot
         return $this->getAssociation($dealId, ObjectType::CONTACTS);
     }
 
-    public function addContact(int $dealId, int $contactId): void
+    public function getLineItems(int $dealId): array
+    {
+        return $this->getAssociation($dealId, ObjectType::LINE_ITEMS);
+    }
+
+    public function associateContact(int $dealId, int $contactId): void
     {
         $this->setAssociation($dealId, ObjectType::CONTACTS, $contactId, 'deal_to_contact');
+    }
+
+    public function associateLineItem(int $dealId, int $lineItemId): void
+    {
+        $this->setAssociation($dealId, ObjectType::LINE_ITEMS, $lineItemId, 'deal_to_line_item');
     }
 
     public function removeContact(int $dealId, int $contactId): void
@@ -63,7 +73,17 @@ final class Deal extends Hubspot
         $this->archiveAssociation($dealId, ObjectType::CONTACTS, $contactId, 'deal_to_contact');
     }
 
-    protected function getDealPipelines(): void
+    public function getDealPipelines(): array
+    {
+        return $this->dealPipelines;
+    }
+
+    public function getDealStages(): array
+    {
+        return $this->dealStages;
+    }
+
+    protected function setDealPipelines(): void
     {
         $results = $this->hubspot
             ->crm()
@@ -77,9 +97,9 @@ final class Deal extends Hubspot
         }
     }
 
-    protected function getDealStages(): void
+    protected function setDealStages(): void
     {
-        $this->getDealPipelines();
+        $this->setDealPipelines();
 
         foreach ($this->dealPipelines as $pipeline) {
             $results = $this->hubspot
