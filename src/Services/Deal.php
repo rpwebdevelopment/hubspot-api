@@ -29,6 +29,7 @@ final class Deal extends Hubspot
     {
         parent::__construct($api);
 
+        $this->objectType = ObjectType::DEALS;
         $this->filter = new Filter();
         $this->filterGroup = new FilterGroup();
         $this->objectInput = new SimplePublicObjectInput();

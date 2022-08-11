@@ -8,6 +8,7 @@ use HubSpot\Client\Crm\LineItems\Model\Filter;
 use HubSpot\Client\Crm\LineItems\Model\FilterGroup;
 use HubSpot\Client\Crm\LineItems\Model\PublicObjectSearchRequest;
 use HubSpot\Client\Crm\LineItems\Model\SimplePublicObjectInput;
+use HubSpot\Crm\ObjectType;
 use HubSpot\Discovery\DiscoveryBase;
 use RpWebDevelopment\HubspotApi\Traits\Searchable;
 
@@ -25,6 +26,7 @@ final class LineItem extends Hubspot
     {
         parent::__construct($api);
 
+        $this->objectType = ObjectType::LINE_ITEMS;
         $this->filter = new Filter();
         $this->filterGroup = new FilterGroup();
         $this->objectInput = new SimplePublicObjectInput();

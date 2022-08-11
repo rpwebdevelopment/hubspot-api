@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace RpWebDevelopment\HubspotApi\Services;
 
+use HubSpot\Client\Crm\Properties\Model\CollectionResponseProperty;
 use HubSpot\Discovery\Discovery;
 
 class Hubspot
 {
+    protected string $objectType = '';
     protected Discovery $hubspot;
 
     public function __construct(protected Api $api)
@@ -51,6 +53,11 @@ class Hubspot
         }
 
         return $association;
+    }
+
+    public function getProperties(): CollectionResponseProperty
+    {
+        return $this->hubspot->crm()->properties()->coreApi()->getAll($this->objectType);
     }
 
     public function setAssociation(int $id, string $associatedType, int $associatedId, string $linkType): void

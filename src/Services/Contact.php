@@ -8,6 +8,7 @@ use HubSpot\Client\Crm\Contacts\Model\Filter;
 use HubSpot\Client\Crm\Contacts\Model\FilterGroup;
 use HubSpot\Client\Crm\Contacts\Model\SimplePublicObjectInput;
 use HubSpot\Client\Crm\Contacts\Model\PublicObjectSearchRequest;
+use HubSpot\Crm\ObjectType;
 use HubSpot\Discovery\DiscoveryBase;
 use RpWebDevelopment\HubspotApi\Traits\Searchable;
 
@@ -25,6 +26,7 @@ final class Contact extends Hubspot
     {
         parent::__construct($api);
 
+        $this->objectType = ObjectType::CONTACTS;
         $this->filter = new Filter();
         $this->filterGroup = new FilterGroup();
         $this->objectInput = new SimplePublicObjectInput();
